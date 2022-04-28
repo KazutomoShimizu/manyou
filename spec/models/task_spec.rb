@@ -6,7 +6,7 @@ require 'rails_helper'
         expect(task).not_to be_valid
       end
     end
-    scontext 'タスクの詳細が空の場合' do
+    context 'タスクの詳細が空の場合' do
       it 'バリデーションにひっかかる' do
         task = Task.new(title: 'sample1', content: nil)
         expect(task).not_to be_valid
