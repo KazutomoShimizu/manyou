@@ -10,4 +10,4 @@
 | Herokuに新しいアプリケーションを作成する（heroku create) |
 | コミットする                                             |
 | Heroku buildpackを追加する                               |
-| Herokuにデプロイをする                                   | 
+| Herokuにデプロイをする                                   |
