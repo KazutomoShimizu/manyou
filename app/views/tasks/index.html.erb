@@ -9,16 +9,18 @@
   </tr>
 
 <% @tasks.each do |task| %>
-  <tr>
-    <td><%= task.title %></td>
-    <td><%= task.content %></td>
-    <td><%= link_to '詳細', task_path(task.id) %></td>
-    <td><%= link_to '編集', edit_task_path(task.id) %></td>
-    <td><%= link_to '削除', task_path(task.id), method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
-  </tr>
+  <div class="task">
+    <tr class="task_row">
+      <td><%= task.title %></td>
+      <td><%= task.content %></td>
+      <td><%= link_to t('view.show'), task_path(task.id) %></td>
+      <td><%= link_to t('view.edit'), edit_task_path(task.id) %></td>
+      <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
+    </tr>
+  </div>
 <% end %>
 </table>
 
 <br>
 
-<%= link_to 'new task', new_task_path %>
+<%= link_to '新しいタスクを作成する', new_task_path %>
