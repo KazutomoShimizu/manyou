@@ -2,11 +2,9 @@
 
 <p><%= notice %></p>
 
-<%= form_with(model: Task.new, local: true, method: :get) do |form| %>
-  <%= form.label :title_search %>
-  <%= form.text_field :title_search %>
-  <%= form.label :status %>
-  <%= form.select :status, [['未着手', 1],['着手中', 2],['完了', 3]], {include_blank: true} %>
+<%= form_with(url: tasks_path, scope: :task, local: true, method: :get) do |form| %>
+  <%= form.text_field :title %>
+  <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true} %>
   <%= form.submit "検索" %>
 <% end %>
 
@@ -16,6 +14,7 @@
     <th>内容</th>
     <th>終了期日</th>
     <th>状態</th>
+    <th>優先度</th>
   </tr>
 
 
@@ -25,6 +24,7 @@
       <td><%= task.content %></td>
       <td><%= task.end_date %></td>
       <td><%= task.status %></td>
+      <td><%= task.priority %></td>
       <td><%= link_to t('view.show'), task_path(task.id) %></td>
       <td><%= link_to t('view.edit'), edit_task_path(task.id) %></td>
       <td><%= link_to t('view.delete'), task_path(task.id), method: :delete, data: { confirm: '本当に削除していいですか？' } %></td>
@@ -33,6 +33,7 @@
 </table>
 
 <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+<%= link_to "優先度でソートする", tasks_path(sort_priority: "true") %>
 
 <br>
 

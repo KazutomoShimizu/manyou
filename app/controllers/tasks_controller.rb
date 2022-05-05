@@ -2,18 +2,23 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.order(create_at: :desc)
 
-    if params[:task]
-      title_search = params[:task][:title_search]
-      status_search = params[:task][:status_search]
-      @tasks = @tasks.get_search_result(title_search, status_search)
-    end
+    if params[:task].present?
+      title = params[:task][:title]
+      status = params[:task][:status]
+      if (title && status).present?
+        @tasks = @tasks.search_title(title).search_status(status)
+      elsif title.present?
+        @tasls = @tasks.search_title(title)
+      elsif status.present?
+        @tasks = @tasks.status_search(status)
+      end
 
-    if params[:sort_expired]
+    elsif params[:sort_expired]
       @tasks = Task.all.order(end_date: :desc)
-    else
-      @tasks = Task.all.order(created_at: :desc)
+    elsif params[:sort_priority]
+      @tasks = Task.all.order(priority: :asc)
     end
   end
 
@@ -23,14 +28,10 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
-    if params[:back]
-      render :new
+    if @task.save
+      redirect_to tasks_path, notice: "タスクを作成しました"
     else
-      if @task.save
-        redirect_to tasks_path, notice: "タスクを作成しました"
-      else
-        render :new
-      end
+      render :new
     end
   end
 
