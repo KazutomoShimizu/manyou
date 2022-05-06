@@ -3,9 +3,24 @@
 <p><%= notice %></p>
 
 <%= form_with(url: tasks_path, scope: :task, local: true, method: :get) do |form| %>
-  <%= form.text_field :title %>
-  <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true} %>
-  <%= form.submit "検索" %>
+  <div class = "form-row">
+    <span class = "form-group col-md-4">
+      <%= form.text_field :title, placeholder:"タイトル検索", type: "text", class: "form-control",id: "inputcity" %>
+    </span>
+    <span class = "form-group col-md-3">
+      <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true}, id:"inputstate", class: "form-control" %>
+    </span>
+    <span>
+      <%= form.submit "検索", class:"btn-secondary" %>
+    </span>
+
+    <button type="button" class="btn btn-outline-primary">
+      <%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+    </button>
+    <button type="button" class="btn btn-outline-primary">
+      <%= link_to "優先度でソートする", tasks_path(sort_priority: "true") %>
+    </button>
+  </div>
 <% end %>
 
 <table>
@@ -32,9 +47,8 @@
 <% end %>
 </table>
 
-<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
-<%= link_to "優先度でソートする", tasks_path(sort_priority: "true") %>
-
 <br>
 
 <%= link_to '新しいタスクを作成する', new_task_path %>
+
+<%= paginate @tasks %>

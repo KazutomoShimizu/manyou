@@ -32,6 +32,28 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
   end
 
+  describe 'ソート機能' do
+    let!(:task){ FactoryBot.create(:task) }
+    let!(:task_second){ FactoryBot.create(:task_second)
+    before do
+      visit tasks_path
+    end
+    context '終了期限でソートするボタンを押した場合' do
+      it '終了期限が遅いタスクが一番上に表示される', :retry => 3, :retry_wait => 5  do
+       click_on "終了期限でソートする"
+       task_list = all('.task_row')
+       expect(task_list[0]).to have_content "テスト確認"
+      end
+    end
+    context '優先順位でソートするボタンを押した場合' do
+      it '優先順位が高いタスクが一番上に表示される' do
+       click_on "優先度でソートする"
+       task_list = all('.task_row')
+       expect(task_list[0]).to have_content "test"
+      end
+    end
+  end
+
   describe '詳細表示機能' do
      context '任意のタスク詳細画面に遷移した場合' do
        it '該当タスクの内容が表示される' do
@@ -40,5 +62,37 @@ RSpec.describe 'タスク管理機能', type: :system do
          expect(page).to have_content 'sample1'
        end
      end
+  end
+
+  describe '検索機能' do
+    before do
+      FactoryBot.create(:task, title: "task")
+      FactoryBot.create(:second_task, title: "sample")
+    end
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        fill_in 'task_title', with: 'task'
+        click_on "検索"
+        expect(page).to have_content 'sample1'
+      end
+    end
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        visit tasks_path
+        select '着手中', from: 'task[status]'
+        click_on "検索"
+        expect(page).to have_content 'sample1'
+      end
+    end
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+        visit tasks_path
+        fill_in 'task_title', with: 'sample1'
+        select '着手中', from: 'task[status]'
+        click_on "検索"
+        expect(page).to have_content 'sample1'
+      end
+    end
   end
 end

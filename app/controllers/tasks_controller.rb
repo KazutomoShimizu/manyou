@@ -2,17 +2,17 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.order(create_at: :desc)
+    @tasks = Task.order(created_at: :desc)
 
     if params[:task].present?
-      title = params[:task][:title]
-      status = params[:task][:status]
-      if (title && status).present?
-        @tasks = @tasks.search_title(title).search_status(status)
-      elsif title.present?
-        @tasls = @tasks.search_title(title)
-      elsif status.present?
-        @tasks = @tasks.status_search(status)
+      params_title = params[:task][:title]
+      params_status = params[:task][:status]
+      if (params_title && params_status).present?
+        @tasks = @tasks.search_title(params_title).search_status(params_status)
+      elsif params_title.present?
+        @tasks = @tasks.search_title(params_title)
+      elsif params_status.present?
+        @tasks = @tasks.status_search(params_status)
       end
 
     elsif params[:sort_expired]
@@ -20,6 +20,7 @@ class TasksController < ApplicationController
     elsif params[:sort_priority]
       @tasks = Task.all.order(priority: :asc)
     end
+    @tasks = @tasks.page(params[:page]).per(5)
   end
 
   def new
@@ -67,6 +68,7 @@ class TasksController < ApplicationController
       :content,
       :end_date,
       :status,
+      :priority
     )
   end
 
