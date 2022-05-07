@@ -35,7 +35,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
     describe "ソート機能" do
       let!(:task){ FactoryBot.create(:task) }
-      let!(:task){ FactoryBot.create(:second_task) }
+      let!(:second_task){ FactoryBot.create(:second_task) }
       before do
         visit tasks_path
       end
@@ -49,15 +49,16 @@ RSpec.describe 'タスク管理機能', type: :system do
       context '優先順位でソートするボタンを押した場合' do
         it '優先順位が高いタスクが一番上に表示される' do
          click_link "優先度でソートする"
+         sleep 1.0
          task_title = all('.task_row')
-         expect(task_title[0]).to have_content "sample1"
+         expect(task_title[0]).to have_content "高"
         end
       end
     end
 
     describe "検索機能" do
       let!(:task){ FactoryBot.create(:task) }
-      let!(:task){ FactoryBot.create(:second_task) }
+      let!(:second_task){ FactoryBot.create(:second_task) }
       before do
         visit tasks_path
       end
@@ -67,6 +68,7 @@ RSpec.describe 'タスク管理機能', type: :system do
           fill_in 'inputcity', with: 'sample'
           click_on "検索"
           expect(page).to have_content 'sample2'
+          expect(page).to have_content 'sample1'
         end
       end
       context 'ステータス検索をした場合' do

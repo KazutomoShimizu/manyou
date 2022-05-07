@@ -16,8 +16,8 @@ FactoryBot.define do
   end
 
   factory :third_task, class: Task do
-    title {'sample2'}
-    content {'sample2'}
+    title {'sample3'}
+    content {'sample3'}
     end_date {Time.now.since(5.days)}
     status {'完了'}
     priority {'低'}
