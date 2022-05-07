@@ -42,6 +42,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       context '終了期限でソートするボタンを押した場合' do
         it '終了期限が遅いタスクが一番上に表示される' do
          click_link "終了期限でソートする"
+         sleep 1.0
          task_title = all('.task_row')
          expect(task_title[0]).to have_content "sample2"
         end
