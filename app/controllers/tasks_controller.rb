@@ -2,8 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.order(created_at: :desc)
-
+    tasks = current_user.tasks
+    @tasks = tasks.all.order(created_at: :desc)
     if params[:task].present?
       params_title = params[:task][:title]
       params_status = params[:task][:status]
@@ -28,7 +28,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
     if @task.save
       redirect_to tasks_path, notice: "タスクを作成しました"
     else

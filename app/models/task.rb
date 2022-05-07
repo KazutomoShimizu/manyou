@@ -13,4 +13,6 @@ class Task < ApplicationRecord
   scope :search_status, ->(params_status){
     where(status: params_status)}
   scope :priority_asc, -> { order(priority: :asc) }
+
+  belongs_to :user
 end
