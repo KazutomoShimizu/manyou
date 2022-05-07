@@ -1,8 +1,15 @@
-| Task   |         |            |            |
-| ------ | ------- | ---------- | ---------- |
-| title  | content | created_at | updated_at |
-| string | text    | datetime   | datetime   |
-
+|            |          |                       |                         |
+| ---------- | -------- | --------------------- | ----------------------- |
+| Task       |          |                       |                         |
+| title      | string   | null:false            |                         |
+| content    | text     | null:false            |                         |
+| created_at | datetime | null: false           | precision: 6            |
+| updated_at | datetime | null: false           | precision: 6            |
+| end_date   | datetime | null: false           | default: -> { "now()" } |
+| status     | integer  | null: false           |                         |
+| priority   | integer  | null: false           |                         |
+| ["status"] | index    | index_tasks_on_status |                         |
+| ["title"]  | index    | index_tasks_on_title  |                         | 
 
 
 | Herokuへのデプロイ手順                                   |
