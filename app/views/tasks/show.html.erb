@@ -2,5 +2,9 @@
 <p>タイトル: <%= @task.title %></p>
 <p>内容: <%= @task.content %></p>
 <p>終了期限: <%= @task.end_date %></p>
-
+<p>ラベル：
+  <% task.labels.each do |label| %>
+    <%= label.name %>
+  <% end %>
+</p>
 <%= link_to t('view.back'), tasks_path %>

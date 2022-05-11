@@ -7,12 +7,15 @@ class TasksController < ApplicationController
     if params[:task].present?
       params_title = params[:task][:title]
       params_status = params[:task][:status]
+      params_label = params[:task][:label_id]
       if (params_title && params_status).present?
         @tasks = @tasks.search_title(params_title).search_status(params_status)
       elsif params_title.present?
         @tasks = @tasks.search_title(params_title)
       elsif params_status.present?
-        @tasks = @tasks.status_search(params_status)
+        @tasks = @tasks.search_status(params_status)
+      elsif params_label.present?
+        @tasks = @tasks.joins(:labels).where(labels: { id: params_label })
       end
 
     elsif params[:sort_expired]
@@ -68,7 +71,8 @@ class TasksController < ApplicationController
       :content,
       :end_date,
       :status,
-      :priority
+      :priority,
+      { label_ids: [] }
     )
   end
 
