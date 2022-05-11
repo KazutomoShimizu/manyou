@@ -3,7 +3,7 @@
 <p>内容: <%= @task.content %></p>
 <p>終了期限: <%= @task.end_date %></p>
 <p>ラベル：
-  <% task.labels.each do |label| %>
+  <% @task.labels.each do |label| %>
     <%= label.name %>
   <% end %>
 </p>
