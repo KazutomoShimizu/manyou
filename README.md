@@ -1,6 +1,6 @@
 |            |          |                       |                         |
 | ---------- | -------- | --------------------- | ----------------------- |
-| Task       |          |                       |                         |
+| tasks       |          |                       |                         |
 | title      | string   | null:false            |                         |
 | content    | text     | null:false            |                         |
 | created_at | datetime | null: false           | precision: 6            |
@@ -19,9 +19,28 @@
 | email           | string        | null:false           |               |
 | password_digest | string        |                      |               |
 | admin           | boolean       | null:false           | default:false |
-| created_at      | datetime      | null:false           | precision: 6  | 
+| created_at      | datetime      | null:false           | precision: 6  |
 | updated_at      | default:false | null:false           | precision: 6  |
 | ["email"]       | index         | index_users_on_email | unique: true  |
+
+
+|            |          |            |              |
+| ---------- | -------- | ---------- | ------------ |
+| labels     |          |            |              |
+| name       | string   | null:false |              |
+| created_at | datetime | null:false | precision: 6 |
+| updated_at | datetime | null:false | precision: 6 |
+
+
+|              |          |                                      |              |
+| ------------ | -------- | ------------------------------------ | ------------ |
+| labellings   |          |                                      |              |
+| "task_id"    | bigint   | null:false                           |              |
+| "label_id"   | bigint   | null:false                           |              |
+| created_at   | datetime | null:false                           | precision: 6 |
+| updated_at   | datetime | null:false                           | precision: 6 |
+| ["label_id"] | index    | name: "index_labellings_on_label_id" |              |
+| ["task_id"]  | index    | name: "index_labellings_on_task_id"  |              |
 
 
 | Herokuへのデプロイ手順                                   |

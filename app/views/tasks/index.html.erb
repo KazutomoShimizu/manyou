@@ -8,10 +8,10 @@
       <%= form.text_field :title, placeholder:"タイトル検索", type: "text", class: "form-control",id: "inputcity" %>
     </span>
     <span class = "form-group col-md-2">
-      <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true}, id:"inputstate", class: "form-control" %>
+      <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true}, id:"inputstate_status", class: "form-control" %>
     </span>
     <span class = "form-group col-md-2">
-      <%= form.select :label_id, Label.pluck(:name, :id), {include_blank: true}, id:"inputstate", class: "form-control" %>
+      <%= form.select :label_id, Label.pluck(:name, :id ).to_h, {include_blank: true}, id:"inputstate_label",class: "form-control" %>
     </span>
     <span>
       <%= form.submit "検索", class:"btn-secondary" %>

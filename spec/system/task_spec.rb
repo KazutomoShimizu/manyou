@@ -109,13 +109,6 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(page).to have_content 'sample2'
       end
     end
-    context "ラベルの検索をした場合" do
-      it "ラベルに完全一致するタスクが絞り込まれる" do
-        select 'sample_label2', form: 'task[label_id]'
-        click_on '検索'
-        expect(page).to have_content 'sample_label2'
-      end
-    end
   end
 
   describe '詳細表示機能' do
